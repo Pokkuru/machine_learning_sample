@@ -44,11 +44,14 @@ def main():
                             shuffle=False,  # 学習世代ごとにシャッフルする
                             num_workers=2)  # データを読み込むサブプロセスの数（CPUが強ければ大きくしてもいいかも？）
 
+    
     # タプルで(0,1,2,3,4,5,6,7,8,9)の等差数列（np.linspace）を作る
     classes = tuple(np.linspace(0, 9, 10, dtype=np.uint8))
 
     # ネットワークモデルの読み込み
-    net = Net()
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    net = Net().to(device)
+    #net.to(device)
 
     # 基準となる損失関数の指定
     criterion = nn.CrossEntropyLoss()
@@ -64,6 +67,9 @@ def main():
             # 勾配の初期化
             optimizer.zero_grad()
             # ネットワークにトレーニングデータを読み込ませる
+            #outputs = net(inputs)
+            inputs = inputs.to(device)
+            labels = labels.to(device)
             outputs = net(inputs)
             # 誤差
             loss = criterion(outputs, labels)
@@ -87,6 +93,8 @@ def main():
         # テストデータを読み込み
         for (images, labels) in testloader:
             # imageをネットワークに読み込ませる
+            images = images.to(device)
+            labels = labels.to(device)
             outputs = net(images)
             # 予測正確性と予測した種類を数値で返す
             _, predicted = torch.max(outputs.data, 1)
