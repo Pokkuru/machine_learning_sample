@@ -16,7 +16,7 @@ model.load_state_dict(torch.load("./mnist_model.pth"))
 model = model.eval()
 
 # 画像の読み込み
-image = Image.open("./data/9.png")
+image = Image.open("./data/2.png")
 image = ImageOps.invert(image.convert('L')).resize((28,28))
 transform = transforms.Compose([
                            transforms.ToTensor(),
@@ -27,8 +27,6 @@ image = torch.as_tensor(image)
 image = image.unsqueeze(0)
 
 # 予測処理
-print(model)
 outputs = model(image)
 _, predicted = torch.max(outputs.data, 1)
-print(str(_))
 print("predict => " + str(predicted[0].item()))
