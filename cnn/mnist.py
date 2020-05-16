@@ -35,12 +35,12 @@ def main():
                     transform=transform)    # 上記の画像変換の構成で画像変換する
 
     trainloader = DataLoader(trainset,  # データセット
-                             batch_size=100,# バッチ数
+                             batch_size=128,# バッチ数
                              shuffle=True,  # 学習世代ごとにシャッフルする
                              num_workers=2) # データを読み込むサブプロセスの数（CPUが強ければ大きくしてもいいかも？）
 
     testloader = DataLoader(testset,    # データセット
-                            batch_size=100, # バッチ数
+                            batch_size=128, # バッチ数
                             shuffle=False,  # 学習世代ごとにシャッフルする
                             num_workers=2)  # データを読み込むサブプロセスの数（CPUが強ければ大きくしてもいいかも？）
 
@@ -59,8 +59,8 @@ def main():
     optimizer = optim.SGD(net.parameters(),
                           lr=0.01, momentum=0.99, nesterov=True)
 
-    # 2世代学習させる
-    for epoch in range(3):
+    # 10世代学習させる
+    for epoch in range(20):
         running_loss = 0.0
         # 1バッチ分のループ
         for i, (inputs, labels) in enumerate(trainloader, 0):
