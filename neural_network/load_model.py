@@ -26,6 +26,7 @@ model = Net()
 def predict(X):
     X = torch.as_tensor(torch.from_numpy(np.array(X)).float())
     outputs = model(X)
+    print(outputs)
     return np.argmax(outputs.data.numpy())
 
 

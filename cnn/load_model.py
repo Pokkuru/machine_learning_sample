@@ -11,34 +11,12 @@ from PIL import Image, ImageOps
 from net import Net
 
 # モデルの読み込み
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-#device = torch.device("cpu")
 model = Net()
-model.load_state_dict(torch.load("./mnist_model.pth", map_location=lambda storage, loc: storage ))
-model = Net().to(device)
+model.load_state_dict(torch.load("./mnist_model.pth"))
 model = model.eval()
 
-# 予測処理
-def predict(X):
-    outputs = model(X)
-    _, predicted = torch.max(outputs.data, 1)
-    print(str(_))
-    return(predicted)
-    """
-    #with torch.no_grad():
-        # テストデータを読み込み
-        #X = X.to(device)
-        outputs = model(X)
-        # 予測正確性と予測した種類を数値で返す
-        _, predicted = torch.max(outputs.data, 1)
-        print(str(_))
-        return(predicted)
-    """
-
 # 画像の読み込み
-image = Image.open("./data/test0001.png")
-#image = image.resize((28,28))
-#image = image.convert('L').resize((28,28))
+image = Image.open("./data/9.png")
 image = ImageOps.invert(image.convert('L')).resize((28,28))
 transform = transforms.Compose([
                            transforms.ToTensor(),
@@ -46,7 +24,11 @@ transform = transforms.Compose([
                        ])
 image = transform(image).float()
 image = torch.as_tensor(image)
-image = image.to(device).unsqueeze(0)
+image = image.unsqueeze(0)
 
-# 検証
-print("predict => " + str(predict(image)[0].item()))
+# 予測処理
+print(model)
+outputs = model(image)
+_, predicted = torch.max(outputs.data, 1)
+print(str(_))
+print("predict => " + str(predicted[0].item()))
