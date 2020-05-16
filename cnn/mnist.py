@@ -104,6 +104,8 @@ def main():
             correct += (predicted == labels).sum().item()
     print('Accuracy: {:.2f} %'.format(100 * float(correct/total)))
 
+    # モデルの保存
+    torch.save(net.state_dict(), "./mnist_model.pth")
 
 if __name__ == '__main__':
     start_time = time.time()
