@@ -60,7 +60,7 @@ def main():
                           lr=0.01, momentum=0.99, nesterov=True)
 
     # 10世代学習させる
-    for epoch in range(20):
+    for epoch in range(10):
         running_loss = 0.0
         # 1バッチ分のループ
         for i, (inputs, labels) in enumerate(trainloader, 0):
