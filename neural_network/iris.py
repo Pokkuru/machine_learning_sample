@@ -1,5 +1,5 @@
+#coding: utf-8
 import torch
-from torch.autograd import Variable
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
@@ -7,23 +7,8 @@ import numpy as np
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
 
-
-# ニューラルネットワークの定義
-class Net(nn.Module):
-    def __init__(self):
-        super(Net, self).__init__()
-        # 3層のニューラルネットワーク
-        self.fc1 = nn.Linear(4, 10) # 入力数4  ニューロン数10
-        self.fc2 = nn.Linear(10, 8) # 入力数10 ニューロン数8
-        self.fc3 = nn.Linear(8, 3)  # 入力数8  ニューロン数3
-
-    def forward(self, x):
-        # 活性化関数はReLUに入力値xを入れる
-        # 出力は次の層に渡す
-        x = F.relu(self.fc1(x))
-        x = F.relu(self.fc2(x))
-        x = self.fc3(x)
-        return x
+# ネットワークの読み込み
+from net import Net
 
 # sklearn付属のデータセットのロード
 iris = datasets.load_iris()
