@@ -10,9 +10,12 @@ from PIL import Image, ImageOps
 # 定義したネットワークのインポート
 from net import Net
 
+# デバイスの指定
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 # モデルの読み込み
 model = Net()
-model.load_state_dict(torch.load("./mnist_model.pth"))
+model.load_state_dict(torch.load("./mnist_model.pth", map_location=torch.device(device)))
 model = model.eval()
 
 # 画像の読み込み
